@@ -9,6 +9,7 @@ export class Player extends Model<TPlayer> {
   @Column({
     type: DataType.STRING,
     allowNull: false,
+    primaryKey: true,
   })
   id: string; // ID único del jugador (socket ID)
 
