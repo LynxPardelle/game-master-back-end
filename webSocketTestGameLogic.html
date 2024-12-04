@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Test</title>
+    <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+</head>
+
+<body>
+    <h1>Game Test</h1>
+    <script>
+        const socket = io('http://localhost:3000');
+        const sessionId = 1;
+
+        socket.emit('joinGame', { sessionId, name: 'Player1' });
+
+        socket.on(`gameState_${sessionId}`, (gameState) => {
+            console.log('Game State:', gameState);
+        });
+        socket.on(`gameEnded_${sessionId}`, (data) => {
+            console.log(data.message);
+        });
+
+        setTimeout(() => {
+            socket.emit('nextTurn', { sessionId });
+        }, 5000);
+
+        // Simula el envío del evento para finalizar la partida
+        setTimeout(() => {
+            socket.emit('finalizeGame', { sessionId });
+        }, 10000);
+    </script>
+</body>
+
+</html>
